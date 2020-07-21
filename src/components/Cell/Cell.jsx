@@ -10,7 +10,7 @@ const StyledCell = styled.div`
   white-space: nowrap;
   box-sizing: border-box;
   outline: 1px solid #000;
-  background-color: ${({ isValid }) => isValid ? 'green' : 'transparent'};
+  background-color: ${({ isValid }) => isValid ? colors.valid : 'white'};
   
   &:after {
     display: block;
@@ -36,15 +36,15 @@ const StyledInput = styled.input`
   font-size: 2rem;
   border: none;
   outline: none;
+  background: transparent;
 
   &:invalid {
     color: ${colors.invalid}
   }
 `
 
-export function Cell ({row, column, onChange, validityInstances = []}) {
+export function Cell ({row, column, onChange, isValid}) {
   const id = `cell-r${row}-c${column}`
-  const isValid = !!validityInstances.find(matchLine => matchLine.isValid)
 
   if (!row) {
     return <StyledColumnHeading
@@ -73,9 +73,9 @@ export function Cell ({row, column, onChange, validityInstances = []}) {
         type="text"
         pattern="(1|0)"
         maxLength="1"
-        onChange={event => onChange(event.target.value) || console.log(133, validityInstances)}
+        onChange={event => onChange(row, column, event.target.value) || console.log(133, isValid)}
       />
-      <div style={{position: 'absolute', pointerEvents: 'none'}}>{validityInstances.map(i => i.isValid.toString()).join(', ')}</div>
+      <div style={{position: 'absolute', pointerEvents: 'none'}}>{isValid}</div>
     </StyledCell>
   }
 }

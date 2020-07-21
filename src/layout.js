@@ -7,5 +7,6 @@ export const fontWeights = {
 export const colors = {
   black: 'rgb(0, 0, 0)',
   secondary: 'rgba(0, 0, 0, 0.1)',
-  invalid: 'red'
+  invalid: 'red',
+  valid: '#00d486'
 }

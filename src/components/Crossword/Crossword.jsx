@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { config } from '../../config'
 import { Cell } from '../Cell'
@@ -19,8 +19,6 @@ const StyledCrosswordField = styled.figure`
   text-align: center;
 `
 
-const cells = []
-
 const rows = (new Array(config.rowsCount))
   .fill()
   .map((item, index) => {
@@ -37,42 +35,42 @@ const columns = (new Array(config.columnsCount))
     return line
   })
 
+export function Crossword () {
+  const [cellValues, setCellValues] = useState((new Array(config.rowsCount * config.columnsCount)).fill(''))
 
-const onCellChanged = (row, column, value) => {
-  rows[row - 1].setItem(column - 1, value)
-  columns[column - 1].setItem(row - 1, value)
+  const cells = []
 
-  console.log(`value changed at row ${row}, column ${column}:`, value)
-  console.log({
-    rows,
-    columns,
-    isValid: (row && rows[row - 1].isValid) || (column && columns[column - 1].isValid)
-  })
-}
+  const onCellChanged = (row, column, value) => {
+    rows[row - 1].setItem(column - 1, value)
+    columns[column - 1].setItem(row - 1, value)
 
-for (let row = 0; row <= config.rowsCount; row++) {
-  for (let column = 0; column <= config.columnsCount; column++) {
-    const validityInstances = []
-
-    if (row) { validityInstances.push(rows[row - 1]) }
-    if (column) { validityInstances.push(columns[column - 1]) }
-
-    cells.push(
-      <Cell
-        key={`cell-${row}:${column}`}
-        row={row}
-        column={column}
-        validityInstances={validityInstances}
-        onChange={onCellChanged.bind(null, row, column)}
-      />
-    )
+    setCellValues([])
+  
+    console.log(`value changed at row ${row}, column ${column}:`, value)
   }
-}
+  
+  for (let row = 0; row <= config.rowsCount; row++) {
+    for (let column = 0; column <= config.columnsCount; column++) {
+      const value = 1
+  
+      cells.push(
+        <Cell
+          key={`cell-${row}:${column}`}
+          row={row}
+          column={column}
+          isValid={(row && rows[row - 1].isValid) || (column && columns[column - 1].isValid)}
+          onChange={onCellChanged}
+          value={value}
+        />
+      )
+    }
+  }
 
-export const Crossword = () => (
-  <StyledCrosswordContainer>
-    <StyledCrosswordField>
-      {cells}
-    </StyledCrosswordField>
-  </StyledCrosswordContainer>
-)
+  return (
+    <StyledCrosswordContainer>
+      <StyledCrosswordField>
+        {cells}
+      </StyledCrosswordField>
+    </StyledCrosswordContainer>
+  )
+}
