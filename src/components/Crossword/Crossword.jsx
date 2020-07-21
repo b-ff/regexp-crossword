@@ -17,6 +17,17 @@ const StyledCrosswordField = styled.figure`
   width: 36%;
   margin: 0 32%;
   text-align: center;
+
+  @media screen and (max-width: 1024px) {
+    width: 60%;
+    margin: 0 20%;
+  }
+
+
+  @media screen and (max-width: 960px) {
+    width: 90%;
+    margin: 0 5%;
+  }
 `
 
 const StyledButton = styled.button`
