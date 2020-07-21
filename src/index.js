@@ -9,6 +9,20 @@ import { Footer } from './components/Footer'
 
 import { fontWeights } from './layout'
 
+ReactDOM.render(
+  <React.StrictMode>
+    <GlobalStyle />
+    <Header />
+    <Crossword /> 
+    <Footer />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.register();
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@${Object.values(fontWeights).join(';')}&display=swap');
@@ -31,18 +45,3 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
   }
 `
-
-ReactDOM.render(
-  <React.StrictMode>
-    <GlobalStyle />
-    <Header />
-    <Crossword /> 
-    <Footer />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
