@@ -19,6 +19,16 @@ const StyledCrosswordField = styled.figure`
   text-align: center;
 `
 
+const StyledButton = styled.button`
+  margin: 1rem auto;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+`
+
 const rows = (new Array(config.rowsCount))
   .fill()
   .map((item, index) => {
@@ -62,6 +72,8 @@ export function Crossword () {
   }
 
   const clear = () => {
+    rows.forEach(row => row.items = (new Array(config.columnsCount)).fill(null))
+    columns.forEach(column => column.items = (new Array(config.rowsCount)).fill(null))
     setCellValues(getEmptyState())
   }
   
@@ -87,9 +99,9 @@ export function Crossword () {
       <StyledCrosswordField>
         {cells}
       </StyledCrosswordField>
-      <button type="button" onClick={clear}>
+      <StyledButton type="button" onClick={clear}>
         Clear
-      </button>
+      </StyledButton>
     </StyledCrosswordContainer>
   )
 }
