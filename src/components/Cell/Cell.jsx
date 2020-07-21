@@ -43,7 +43,7 @@ const StyledInput = styled.input`
   }
 `
 
-export function Cell ({row, column, onChange, isValid}) {
+export function Cell ({row, column, onChange, isValid, value}) {
   const id = `cell-r${row}-c${column}`
 
   if (!row) {
@@ -73,6 +73,7 @@ export function Cell ({row, column, onChange, isValid}) {
         type="text"
         pattern="(1|0)"
         maxLength="1"
+        value={value}
         onChange={event => onChange(row, column, event.target.value) || console.log(133, isValid)}
       />
       <div style={{position: 'absolute', pointerEvents: 'none'}}>{isValid}</div>

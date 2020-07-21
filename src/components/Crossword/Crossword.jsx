@@ -36,7 +36,9 @@ const columns = (new Array(config.columnsCount))
   })
 
 export function Crossword () {
-  const [cellValues, setCellValues] = useState((new Array(config.rowsCount * config.columnsCount)).fill(''))
+  const getEmptyState = () => (new Array(config.rowsCount * config.columnsCount)).fill('')
+  const getValueIndex = (row, column) => ((row - 1) * config.columnsCount) + (column - 1)
+  const [cellValues, setCellValues] = useState(getEmptyState())
 
   const cells = []
 
@@ -44,14 +46,28 @@ export function Crossword () {
     rows[row - 1].setItem(column - 1, value)
     columns[column - 1].setItem(row - 1, value)
 
-    setCellValues([])
+    const newValues = [...cellValues]
+    newValues[getValueIndex(row, column)] = value
+
+    setCellValues(newValues)
   
-    console.log(`value changed at row ${row}, column ${column}:`, value)
+    console.log(`value changed at row ${row}, column ${column}:`, newValues)
+
+    const validRowsCount = rows.filter(row => row.isValid).length
+    const validColumnsCount = columns.filter(column => column.isValid).length
+
+    if (config.rowsCount === validRowsCount && config.columnsCount === validColumnsCount) {
+      alert('You win!')
+    }
+  }
+
+  const clear = () => {
+    setCellValues(getEmptyState())
   }
   
   for (let row = 0; row <= config.rowsCount; row++) {
     for (let column = 0; column <= config.columnsCount; column++) {
-      const value = 1
+      const value = cellValues[getValueIndex(row, column)]
   
       cells.push(
         <Cell
@@ -71,6 +87,9 @@ export function Crossword () {
       <StyledCrosswordField>
         {cells}
       </StyledCrosswordField>
+      <button type="button" onClick={clear}>
+        Clear
+      </button>
     </StyledCrosswordContainer>
   )
 }
